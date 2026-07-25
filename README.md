@@ -136,8 +136,10 @@ the mint form, not just logged to the console.
 
 
 
- -[ Wallet picker showing multiple wallet options ](wallets.png)
- -[Mint form mid-transaction](mintedsuccessful.png)
+ -[ Wallet picker showing multiple wallet options ] (wallets.png)
+ 
+ -[Mint form mid-transaction] (mintedsuccessful.png)
+ 
  - [ Live activity feed after a mint] 
 
 ## Live demo
