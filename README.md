@@ -140,7 +140,7 @@ the mint form, not just logged to the console.
  
 ![NFT Minting](./mintedsuccessful.png)
  
- - [ Live activity feed after a mint] 
+![NFT Minting Successful](./mintedsuccessful.png)
 
 ## Live demo
 
