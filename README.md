@@ -134,15 +134,15 @@ the mint form, not just logged to the console.
 
 ## Screenshots
 
-_Add after running locally:_
 
-- [ ] Wallet picker showing multiple wallet options (wallets.png)
+
+ [ Wallet picker showing multiple wallet options ](wallets.png)
 - [ ] Mint form mid-transaction (status stepper visible)
 - [ ] Live activity feed after a mint
 
 ## Live demo
 
-_Add your Vercel/Netlify link here after deploying `npm run build`._
+
 
 ## Notes on scope
 
