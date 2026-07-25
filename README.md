@@ -136,7 +136,7 @@ the mint form, not just logged to the console.
 
 
 
-![Wallet Selection](wallets.png)
+![Wallet Selection](./wallets.png)
  
 ![NFT Minting](./screenshots/mintedsuccessful.png)
  
