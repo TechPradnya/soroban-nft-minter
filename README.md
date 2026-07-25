@@ -57,15 +57,15 @@ nft-minter/
 ### Prerequisites
 
 - Node.js 18+
-- Rust + the `wasm32-unknown-unknown` target, and the [Soroban CLI](https://developers.stellar.org/docs/tools/developer-tools/cli/install-cli) (`stellar` command)
-- A funded testnet account — create one and fund it at [friendbot](https://friendbot.stellar.org)
+- Rust + the `wasm32v1-none` target, and the [Stellar CLI](https://developers.stellar.org/docs/tools/cli/install-cli) (`stellar` command)
+- A funded testnet account — create one with `stellar keys generate <name> --network testnet --fund`
 - A browser wallet extension: [Freighter](https://www.freighter.app/) is the easiest for testing
 
 ### 1. Clone and install
 
 ```bash
-git clone <your-repo-url>
-cd nft-minter
+git clone https://github.com/TechPradnya/soroban-nft-minter.git
+cd soroban-nft-minter
 npm install
 ```
 
@@ -75,19 +75,18 @@ npm install
 cp .env.example .env
 ```
 
-Leave `VITE_NFT_CONTRACT_ID` blank until you deploy the contract (next step).
+Leave `VITE_NFT_CONTRACT_ID` blank until you deploy the contract (next step), or use the already-deployed contract ID below.
 
 ### 3. Build and deploy the contract
 
 ```bash
 cd contract
-rustup target add wasm32-unknown-unknown
+rustup target add wasm32v1-none
 
 stellar contract build
 
-# Deploy to testnet — replace with your own funded identity
 stellar contract deploy \
-  --wasm target/wasm32-unknown-unknown/release/nft_minter_contract.wasm \
+  --wasm target/wasm32v1-none/release/nft_minter_contract.wasm \
   --source <your-identity> \
   --network testnet
 
@@ -99,11 +98,10 @@ stellar contract invoke \
   -- initialize --admin <YOUR_PUBLIC_KEY>
 ```
 
-> The contract's `mint` function requires the admin's signature (matches
-> the "admin-mints, user-receives" pattern most Level 2 NFT minter
-> submissions use). If you'd rather let any connected wallet mint for
-> itself with no admin gate, drop the `admin.require_auth()` check in
-> `mint()` and adjust `to` to always equal the caller.
+> Minting itself does not require the admin's signature — any connected
+> wallet can mint directly to itself (`to.require_auth()` in `mint()`).
+> The admin recorded at `initialize` is reserved for potential future
+> admin-only actions and isn't currently gating any user-facing flow.
 
 ### 4. Run the frontend
 
@@ -111,7 +109,7 @@ stellar contract invoke \
 npm run dev
 ```
 
-Open http://localhost:5173, connect a wallet, and mint.
+Open the printed local URL (typically `http://localhost:5173`), connect a wallet, and mint.
 
 ## Error handling
 
@@ -125,14 +123,14 @@ messages, satisfying the "3 error types handled" requirement:
 All three are normalized in `src/utils/errors.js` and rendered inline in
 the mint form, not just logged to the console.
 
-## Deployed contract (fill in after your deploy)
+## Deployed contract
 
 | Field | Value |
 |---|---|
-| Contract ID | `CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX` |
+| Contract ID | `CC2VCAKMLTV5TTJBUHVJCZHYRA2J2WFILOEKHZV74KUH45O45STNI57X` |
 | Network | Testnet |
-| Explorer | https://stellar.expert/explorer/testnet/contract/CXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX |
-| Sample mint tx | https://stellar.expert/explorer/testnet/tx/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX |
+| Explorer | https://stellar.expert/explorer/testnet/contract/CC2VCAKMLTV5TTJBUHVJCZHYRA2J2WFILOEKHZV74KUH45O45STNI57X |
+| Sample mint tx | *(see contract explorer link above — click "View on Stellar Explorer" in the app after minting, or check the contract's transaction history)* |
 
 ## Screenshots
 
@@ -148,11 +146,11 @@ _Add your Vercel/Netlify link here after deploying `npm run build`._
 
 ## Notes on scope
 
-This is intentionally a single-collection, admin-minted contract rather
-than a full marketplace — that keeps the surface area small enough to
-actually understand end-to-end, which matters more for a submission like
-this than bolting on features you can't explain. Transfers, balance
-lookups, and a live event feed are included because they directly
-demonstrate the "read/write + event sync" requirements; a full
-marketplace, auctions, or royalties are deliberately left out as
-out-of-scope for this level.
+This is intentionally a single-collection NFT contract rather than a
+full marketplace — that keeps the surface area small enough to actually
+understand end-to-end, which matters more for a submission like this
+than bolting on features you can't explain. Transfers, balance lookups,
+and a live event feed are included because they directly demonstrate
+the "read/write + event sync" requirements; a full marketplace,
+auctions, or royalties are deliberately left out as out-of-scope for
+this level.
