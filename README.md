@@ -144,7 +144,7 @@ the mint form, not just logged to the console.
 
 ## Live demo
 
-https://soroban-nft-minter.vercel.app/
+https://soroban-nft-minter-kl3b-on8llf7me-pradnya-ghodkes-projects.vercel.app/
 
 ## Notes on scope
 
