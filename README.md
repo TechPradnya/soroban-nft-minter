@@ -136,7 +136,7 @@ the mint form, not just logged to the console.
 
 _Add after running locally:_
 
-- [wallets.png ] Wallet picker showing multiple wallet options
+- [ ] Wallet picker showing multiple wallet options (wallets.png)
 - [ ] Mint form mid-transaction (status stepper visible)
 - [ ] Live activity feed after a mint
 
