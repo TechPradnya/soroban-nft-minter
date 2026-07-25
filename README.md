@@ -138,7 +138,7 @@ the mint form, not just logged to the console.
 
 ![Wallet Selection](./wallets.png)
  
-![NFT Minting](./screenshots/mintedsuccessful.png)
+![NFT Minting](./mintedsuccessful.png)
  
  - [ Live activity feed after a mint] 
 
