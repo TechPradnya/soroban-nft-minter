@@ -136,7 +136,7 @@ the mint form, not just logged to the console.
 
 
 
- -[ Wallet picker showing multiple wallet options ] (wallets.png)
+![Wallet](screenshots/wallets.png)
  
  -[Mint form mid-transaction] (mintedsuccessful.png)
  
