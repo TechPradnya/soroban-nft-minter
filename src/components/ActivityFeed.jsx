@@ -1,43 +1,51 @@
-import { Radio, RadioTower } from 'lucide-react';
+import { Radio, RadioTower, CheckCircle2 } from 'lucide-react';
 import { useContractEvents } from '../hooks/useContractEvents';
-
-function short(addr) {
-  // Different stellar-sdk versions return event topic values in different
-  // shapes (raw string, Address instance, or ScVal-like object), so coerce
-  // defensively instead of assuming a string.
-  let str;
-  try {
-    str = typeof addr === 'string' ? addr : addr?.toString?.() ?? String(addr ?? '');
-  } catch {
-    str = '';
-  }
-  if (!str || str.length < 8) return 'unknown';
-  return `${str.slice(0, 4)}…${str.slice(-4)}`;
-}
 
 export default function ActivityFeed() {
   const { events, isLive } = useContractEvents({ topics: ['mint'] });
 
+  // Show only the latest 10 events
+  const recentEvents = events.slice(0, 10);
+
   return (
     <aside className="activity-feed">
       <div className="activity-feed__header">
-        {isLive ? <RadioTower size={14} className="pulse" /> : <Radio size={14} />}
-        <span>Live mint activity</span>
+        {isLive ? (
+          <RadioTower size={15} className="pulse" />
+        ) : (
+          <Radio size={15} />
+        )}
+
+        <div>
+          <h3>Live Mint Activity</h3>
+          <small>{isLive ? "Connected to Stellar Testnet" : "Connecting..."}</small>
+        </div>
       </div>
 
-      {events.length === 0 ? (
-        <p className="activity-feed__empty">
-          No mints yet — the first one will show up here within a few seconds.
-        </p>
+      {recentEvents.length === 0 ? (
+        <div className="activity-feed__empty">
+          <CheckCircle2 size={18} />
+          <span>Waiting for the first NFT mint event...</span>
+        </div>
       ) : (
         <ul className="activity-feed__list">
-          {events.map((evt) => (
+          {recentEvents.map((evt) => (
             <li key={evt.id} className="activity-feed__item">
-              <span className="activity-feed__dot" />
-              <span>
-                New mint by <strong>{short(evt.topic?.[1]?.address || evt.topic?.[1])}</strong>
-              </span>
-              <span className="activity-feed__ledger">ledger {evt.ledger}</span>
+              <CheckCircle2
+                size={16}
+                color="#34d399"
+                style={{ marginTop: 4, flexShrink: 0 }}
+              />
+
+              <div className="activity-feed__content">
+                <strong>New NFT Minted</strong>
+
+                <div className="activity-feed__meta">
+                  <span>✔ Confirmed on Stellar Testnet</span>
+                  <span>•</span>
+                  <span>Ledger #{evt.ledger}</span>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
